@@ -132,7 +132,7 @@ func (client *Client) PublicChat() {
 		chatMsg = ""
 		fmt.Println(">>>>请输入聊天内容，exit退出.")
 		fmt.Scanln(&chatMsg)
-	}、
+	}
 }
 
 func (client *Client) UpdateName() bool {
