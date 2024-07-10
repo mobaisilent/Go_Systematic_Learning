@@ -8,7 +8,7 @@
 >
 > 于6.15完成它吧~ 自己看的时候也就作为复习使用稍微仔细点看吧
 
-## 包,变量与函数
+## 1.包,变量与函数
 
 ### 包
 
@@ -21,13 +21,13 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
+	"math/rand"  // 导入随机数包
 )
 
 func main() {
 	fmt.Println("我最喜欢的数字是 ", rand.Intn(10))
 }
-
+// 输出随机数 Intn那么范围就是0到9  如果是rand.Float64那么记过就是浮点数 从0到1
 ```
 
 ### 导入
@@ -50,7 +50,7 @@ import (
 func main() {
 	fmt.Printf("现在你有了 %g 个问题。\n", math.Sqrt(7))
 }
-
+// %g自动选择最合适的输出方式：如果是浮点数而且小数点后面是0或者没有那么就显示整数
 ```
 
 ### 导出名
@@ -75,6 +75,7 @@ func main() {
 	fmt.Println(math.pi)
 }
 // 这段代码是错误代码：将pi改为大写的P就行了 Pi
+// 因为Pi是math中存在的变量
 ```
 
 ### 函数
@@ -97,7 +98,7 @@ func add(x int, y int) int {
 func main() {
 	fmt.Println(add(42, 13))
 }
-
+// 后面的int表示返回值也是int类型
 ```
 
 ### 函数（续）
@@ -117,7 +118,7 @@ func add(x, y int) int {
 func main() {
 	fmt.Println(add(42, 13))
 }
-
+// 结果自热是55
 ```
 
 ### 多返回值
@@ -143,7 +144,7 @@ func main() {
 	a, b := swap("hello", "world")
 	fmt.Println(a, b)
 }
-	
+// 注意看是i先交换了hello world 然后 在函数里面再反向输出 那么最后的结果自热是正向的了
 ```
 
 ### **带名字的返回值**
@@ -168,6 +169,7 @@ func split(sum int) (x, y int) {
 	y = sum - x
 	return
 }
+// 那么默认返回x和y
 
 func main() {
 	fmt.Println(split(17))
@@ -287,7 +289,6 @@ func main() {
 
 ````go
 0 0 false ""
-
 ````
 
 ### 类型转换
@@ -354,6 +355,7 @@ i := 42           // int
 f := 3.142        // float64
 g := 0.867 + 0.5i // complex128
 // 由右边的精度直接推断数据类型
+// complex128是go语言中的一种数据类型：表示复数
 ```
 
 试着修改示例代码中 `v` 的初始值，并观察它是如何影响类型的。
@@ -449,7 +451,7 @@ func main() {
 // 科学计数法“后面跟着 29个 0
 ```
 
-## 流程控制语句
+## 2.流程控制语句
 
 ### for 循环
 
@@ -487,6 +489,7 @@ func main() {
 for循环的变式
 
 ```go
+package main
 
 import "fmt"
 
@@ -497,7 +500,7 @@ func main() {
 	}
 	fmt.Println(sum)
 }
-
+// 当然这两个for循环基本一致：从结果上来看
 ```
 
 ### for 是 Go 中的「while」
@@ -517,6 +520,7 @@ func main() {
 	fmt.Println(sum)
 }
 // 感觉就是上面之前那个示例代码中将 : 去除的样子
+// 也就是go语言for灵活了很多：当作while使用
 ```
 
 ### 无限循环
@@ -615,7 +619,29 @@ func main() {
 		pow(3, 3, 20),
 	)
 }
+// if语句可以进行初值化：当然for也是可以进行初值使用的：两者这里差不多
+```
 
+看for循环的同类例子：
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    x := 2.0
+    n := 3.0
+    lim := 10.0
+
+    for v := math.Pow(x, n); v < lim; n++ {
+        fmt.Println(v)
+        v = math.Pow(x, n)
+    }
+    // v值初始化然后输出
+}
 ```
 
 ### 练习
@@ -672,6 +698,7 @@ func main() {
 	}
 }
 // os := runtime.GOOS; 先执行了一个简单的赋值语句 然后后面才是根据os的值进行判断 调用case中的判断
+// switch同样可以初值使用 与if是基本一致的
 ```
 
 ### switch中的求值顺序
@@ -730,7 +757,7 @@ func main() {
 		fmt.Println("晚上好！")
 	}
 }
-
+// 就是switch后面不判断值 直接使用case进行判断：一般不这么使用
 ```
 
 > 作用：将一长串 的 if else if  等简化   虽然实际效果大差不差的
@@ -799,7 +826,7 @@ func main() {
 >
 > 例如：func (this *Server)add(x int, y int) int {}
 
-## 更多数据类型（结构体，切片，映射...)
+## 3.更多数据类型
 
 ### 指针
 
@@ -894,7 +921,7 @@ func main() {
     }
 
     for _, v := range vertices {
-        fmt.Println(v)
+        fmt.Println(v)  // 可以实现自动答应数组类型：不用区分x和y 第一个就是x 第二个就是y
     }
     // 注意 range的使用 返回两个参数 第一个是下标 第二个是每一项
 }
@@ -907,7 +934,7 @@ func main() {
 {5 6}
 ```
 
-
+> 注意printf的结构化输出
 
 结构体字段的访问：
 
@@ -943,9 +970,9 @@ type Vertex struct {
 }
 
 func main() {
-	v := Vertex{1, 2}
-	p := &v
-	p.X = 1e9
+	v := Vertex{1, 2}  // 创建一个Vertex的数据类型
+	p := &v  // 取指针
+	p.X = 1e9  // 修改值对象 修改Vertex中的x的值
 	fmt.Println(v)
 }
 // 也就是普通指针的使用而已：不过多赘述
@@ -969,7 +996,7 @@ type Vertex struct {
 
 var (
 	v1 = Vertex{1, 2}  // 创建一个 Vertex 类型的结构体
-	v2 = Vertex{X: 1}  // Y:0 被隐式地赋予零值
+	v2 = Vertex{X: 1}  // X:0 被隐式地赋予零值
 	v3 = Vertex{}      // X:0 Y:0
 	p  = &Vertex{1, 2} // 创建一个 *Vertex 类型的结构体（指针）
 )
@@ -977,7 +1004,7 @@ var (
 func main() {
 	fmt.Println(v1, p, v2, v3)
 }
-
+// **结构体字面量**：：也就是给其赋予初始值
 ```
 
 ### 数组
@@ -1038,10 +1065,9 @@ func main() {
 	primes := [6]int{2, 3, 5, 7, 11, 13}  // 创建数组  // 这里再次强调记忆一下 
     // 普通数据的创建 蔽日 test := int 5 也就是在数据类型前面用方括号表示有多少个元素即可
 
-	var s []int = primes[1:4]  // 创建切片数组 从primes数组的第二个元素到第四个元素
+	var s []int = primes[1:4]  // 创建切片数组 从primes数组的第二个元素到第四个元素：：从已知切片汇总哦那个选取特定的元素信息：按照下标选取
 	fmt.Println(s)
 }
-
 ```
 
 > 关于go语言中切片的解释：
@@ -1081,14 +1107,14 @@ func main() {
 	fmt.Println(a, b)
 	fmt.Println(names)  // 把原数组也修改了
 }
-
+// 注意修改切片对原数值的修改操作
 ```
 
 ### 切片字面量
 
 > 关于go语言中的字面量的概念解释：
 >
-> 
+> 在 Go 语言中，字面量（Literal）是源代码中固定值的表示法。字面量可以直接表示整数、浮点数、复数、布尔值、字符串、字符（rune）、数组、结构体、map 以及这些类型的指针类型。
 
 切片字面量类似于没有长度的数组字面量。
 
@@ -1130,7 +1156,7 @@ func main() {
 	}
 	fmt.Println(s)
 }
-
+// 创建struct的同时 表示创建的是数组 然后后面紧跟着的是6个数组项
 ```
 
 ### 切片的默认行为
@@ -1151,7 +1177,7 @@ var a [10]int  // 创建长度固定的数组
 a[0:10]
 a[:10]
 a[0:]
-a[:]  // 使用切片的默认行为来表示原来的数组 默认就是从0到最后一个
+a[:]  // 这四种使用切片的默认行为来表示原来的数组 默认就是从0到最后一个
 ```
 
 示例代码：
@@ -1201,11 +1227,11 @@ func main() {
 	printSlice(s)  // 打印切片数组
 
 	// 截取切片取其0长度开始  所以 len为0  但是cap为 6
-	s = s[:0]  // 切割显示
+	s = s[:0]  // 切割显示  // 也就是将后面的元素给截取掉了
 	printSlice(s)  // len=0 但是cap=6
 
 	// 扩展其长度
-	s = s[:4]
+	s = s[:4]  // 从0到4
 	printSlice(s)
 
 	// 舍弃前两个值
@@ -1216,7 +1242,7 @@ func main() {
 func printSlice(s []int) {
 	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
 }
-
+// 这里注意切片的截取是start到end-1  所以切片0到4 实际上就是0 1 2 3 不包括4
 ```
 
 ### nil 切片
@@ -1256,7 +1282,7 @@ a := make([]int, 5)  // len(a)=5  // int类型5个空间
 ```
 b := make([]int, 0, 5) // len(b)=0, cap(b)=5   // int类型 len为0 cap为6
 
-b = b[:cap(b)] // len(b)=5, cap(b)=5
+b = b[:cap(b)] // len(b)=5, cap(b)=5  输出结果是 0 1 2 3 4 不包括4 所以可见长度也是5
 b = b[1:]      // len(b)=4, cap(b)=4
 ```
 
@@ -1309,7 +1335,8 @@ func main() {
 		[]string{"_", "_", "_"},
 		[]string{"_", "_", "_"},
 	}
-    // 创建切片二维数组
+    // 创建切片二维数组：二维数组的切片表示方法：第一个string表示是二维数组
+    // 然后下面的strng都是一个string数组 多个数组就是二维数组
 
 	// 两个玩家轮流打上 X 和 O
 	board[0][0] = "X"
@@ -1317,13 +1344,14 @@ func main() {
 	board[1][2] = "X"
 	board[1][0] = "O"
 	board[0][2] = "X"
-    // 填充数据
+    // 填充数据：直接使用二维数组的使用方法
 
 	for i := 0; i < len(board); i++ {
 		fmt.Printf("%s\n", strings.Join(board[i], " "))
 	}
+    // 然后遍历输出结果
 }
-
+// 自热可见结果 无论时X还是O两者都没获胜
 ```
 
 输出结果是：
@@ -1365,7 +1393,7 @@ func main() {
 func printSlice(s []int) {
 	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
 }
-
+// 既要使用s去调用append函数 同hi是还要将其添加到append的参数中
 ```
 
 ### range 遍历
@@ -1389,14 +1417,14 @@ func main() {
 可以将下标或值赋予 `_` 来忽略它。（推荐用法）
 
 ```
-for i, _ := range pow
-for _, value := range pow
+for i, _ := range pow  // 只需要下标
+for _, value := range pow  // 只需要值
 ```
 
 若你只需要索引，忽略第二个变量即可。
 
 ```
-for i := range pow
+for i := range pow  // 也可以直接忽略
 ```
 
 示例代码：
@@ -1406,10 +1434,11 @@ package main
 import "fmt"
 
 func main() {
-	pow := make([]int, 10)
+	pow := make([]int, 10)  // 使用切片和make函数 创建10个空间
 	for i := range pow {
 		pow[i] = 1 << uint(i) // == 2**i
 	}
+    // 使用遍历赋值的方式
 	for _, value := range pow {
 		fmt.Printf("%d\n", value)
 	}
@@ -1438,6 +1467,7 @@ type Vertex struct {
 // 创建结构体用来别是键值对每一项
 
 var m map[string]Vertex
+// map前为键 后为值
 
 func main() {
 	m = make(map[string]Vertex)  // 创建map映射 键是string  值是两个 float64	
@@ -1553,6 +1583,7 @@ delete(m, key)
 
 ```
 elem, ok = m[key]
+// 双赋值在go语言中非常常见
 ```
 
 若 `key` 在 `m` 中，`ok` 为 `true` ；否则，`ok` 为 `false`。
@@ -1676,7 +1707,7 @@ func adder() func(int) int {  // 注意函数的构造类型：参数为空，�
 		return sum
 	}
 }
-// 创建闭包函数 adder
+// 创建闭包函数 adder  // 那么最后的返回值也是int
 
 func main() {
 	pos, neg := adder(), adder()  // 先定义函数
@@ -1687,7 +1718,7 @@ func main() {
 		)
 	}
 }
-
+// 简单理解就是 adder函数本来就没有参数信息 然后将i传入进去作为func的参数信息：：既可以是实现整个函数的功能
 ```
 
 > 有一种闭包的美感：但是感觉实际上使用率应该不高
@@ -1715,6 +1746,7 @@ func main() {
     // 尝试改为2开始的for循环 但是依旧从1 1 开始显示 然后显示8个数字
 }
 // 显示结果就是从1 1 开始 然后显示多少个 与 for循环的范无关：  范围内为越大 显示的内容就越多
+// 因为每次使用的都是func自带的值 而没有传递任何参数
 ```
 
 > 闭包概念是在之前的编程语言中没了解过的知识点 可以稍微多看看 了解了解
@@ -1726,7 +1758,7 @@ func main() {
 3. `for i := 0; i < 10; i++ {...}`：这是一个循环，它会执行10次。在每次循环中，都会执行其中的代码。
 4. `fmt.Println(f())`：这行代码在循环中被执行，它调用了 `f` 函数，并将 `f` 函数的返回值打印出来。
 
-## 方法
+## 4.方法
 
 Go 没有类。不过你可以为类型定义方法。
 
@@ -2788,7 +2820,7 @@ func main() {
 > 1. `w http.ResponseWriter`：这是一个接口，它提供了一组方法，用于构造HTTP响应。你可以通过这个接口写入响应头（header）和响应体（body）。
 > 2. `r *http.Request`：这是一个指向http.Request结构体的指针，它包含了HTTP请求的所有信息，如请求方法（GET、POST等）、URL、头部信息、请求体等。
 
-## 泛型
+## 5.泛型
 
 ### 类型参数
 
@@ -2918,7 +2950,7 @@ func main() {
 >
 > 注意：go语言里面是有链表的板子的  包名   "container/list"   
 
-## 并发
+## 6.并发
 
 ### Go 协程  ： 简称 go程
 
