@@ -1857,20 +1857,21 @@ type Vertex struct {
 func (v Vertex) Abs() float64 {
 	return math.Sqrt(v.X*v.X + v.Y*v.Y)
 }
-// 创建带参方法
+// 创建带参方法  ：也就是对象的使用方法
 
 func (v *Vertex) Scale(f float64) {
 	v.X = v.X * f
 	v.Y = v.Y * f
 }
 // 创建带引用值的方法 ：： 使用了引用（指针）那么就可以改变原来的数值了
+// 推荐使用这种定义方式：既可以接受普通对象：也可以接收指针对象
 
 func main() {
 	v := Vertex{3, 4}  // 定义一个结构体变量 v
 	v.Scale(10)  // 对v调用Scale改变v的值
 	fmt.Println(v.Abs())
 }
-
+// 重点是调用ads和调用Scale之间有什么区别和联系
 ```
 
 ### 指针与函数
@@ -1965,8 +1966,6 @@ func main() {
 
 ### 方法与指针重定向（续）
 
-
-
 示例代码：
 ```go
 package main
@@ -1990,6 +1989,7 @@ func AbsFunc(v Vertex) float64 {
 	return math.Sqrt(v.X*v.X + v.Y*v.Y)
 }
 // 创建浅拷贝函数
+// 两个方法都是浅拷贝
 
 func main() {
 	v := Vertex{3, 4}
@@ -1997,7 +1997,7 @@ func main() {
 	fmt.Println(AbsFunc(v))
     // 调用浅拷贝方法和浅拷贝函数
 
-	p := &Vertex{4, 3}  // 指针结构体
+	p := &Vertex{4, 3}  // 指针结构体  //创建对象之后将对象的指针赋给p  然后稍微注意下p的调用
 	fmt.Println(p.Abs())  
 	fmt.Println(AbsFunc(*p))
     // 这两种调用也是可以的  非指针的函数接收指针的变量，但是指针的函数不接受非指针的变量
@@ -2043,7 +2043,7 @@ func (v *Vertex) Abs() float64 {
 // 深拷贝方法
 
 func main() {
-	v := &Vertex{3, 4}  // 结构体指针
+	v := &Vertex{3, 4}  // 结构体指针  // 创建指针对象
 	fmt.Printf("缩放前：%+v，绝对值：%v\n", v, v.Abs())
 	v.Scale(5)  // 调用函数
 	fmt.Printf("缩放后：%+v，绝对值：%v\n", v, v.Abs())
