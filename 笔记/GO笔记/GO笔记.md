@@ -3760,7 +3760,11 @@ func main() {
 
 ## 2.网络编程
 
+> 网络编程第一步就是：理清思路，没那么复杂
+
 ### socket图解
+
+> 一般的网络编程又叫做socket编程就是因为和socket打交道
 
 ![image-20240617113551189](./images/image-20240617113551189.png)
 
@@ -3826,7 +3830,7 @@ func main() {
         go process(conn) // 启动一个goroutine处理连接
     }
 }
-// main函数共3部曲 监听 -> 连接 -> 处理
+// main函数共3部曲 监听 -> 连接 -> 处理 （开一个go程去处理）（一般是有多个客户端）
 ```
 
 将上面的代码保存之后编译成server或server.exe可执行文件。
@@ -3848,26 +3852,28 @@ func main() {
 
 // 客户端
 func main() {
-    conn, err := net.Dial("tcp", "127.0.0.1:20000")  // 调用接口 ： 尝试建立TCP连接 两个返回值：一个conn  一个如果err
+    conn, err := net.Dial("tcp", "127.0.0.1:20000")  // 调用接口 ： 尝试建立TCP连接 两个返回值：一个conn  一个如果err  ：：有类型有ip和端口
     if err != nil {
         fmt.Println("err :", err)
         return
     }
     // 抛出连接错误
     defer conn.Close() // 关闭连接
-    inputReader := bufio.NewReader(os.Stdin)
+    inputReader := bufio.NewReader(os.Stdin)  // 这里的buf不是conn的buf因为需要客户输入内容
     for {
         input, _ := inputReader.ReadString('\n') // 读取用户输入
-        inputInfo := strings.Trim(input, "\r\n")
-        if strings.ToUpper(inputInfo) == "Q" { // 如果输入q就退出
+        inputInfo := strings.Trim(input, "\r\n") // 去除读取换行和回车键 Trim函数就是删去指定内容
+        if strings.ToUpper(inputInfo) == "Q" { // 如果输入q/Q就退出（调用了strings这个接口)
             return
         }
-        _, err = conn.Write([]byte(inputInfo)) // 发送数据
+        // 简单来说就是输出处理  ：：这里注意下strings这个接口的使用
+        _, err = conn.Write([]byte(inputInfo)) // 向conn这个通道中发送数据
         if err != nil {
             return
         }
+        // 下面是读入写回的数据
         buf := [512]byte{}
-        n, err := conn.Read(buf[:])
+        n, err := conn.Read(buf[:])  // conn是最开始连接的时候创的
         if err != nil {
             fmt.Println("recv failed, err:", err)
             return
