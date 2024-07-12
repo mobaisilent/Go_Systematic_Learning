@@ -1,29 +1,24 @@
 # go_systematic_learning
-> go语言系统性学习
+> go语言系统性学习笔记
 
-## part1
+## 8hour学习Go语言笔记
 
-主要是关于go语言的基础部分
+链接：
 
-- 基础部分
-- 变量的声明
-- 常量的声明
-- 函数
-- defer
-- 切片slice
-- 面向对象特性
-- 继承
-- Interface
-- 万能接口
-- 反射reflect
-- 结构体标签
+https://www.yuque.com/aceld/mo95lb/dsk886
 
-## part2
+适合有其他语言基础，快速上手
 
-- goroutine
-- channel
-- select
-- Go Modules
-- 笔记提纲
 
-> 文章参考：https://www.yuque.com/aceld/mo95lb/dsk886
+
+## Go笔记
+
+综合笔记部分，个人总结，会有持续性补充
+
+### 基础部分
+
+### 高级部分
+
+### 补充部分
+
+Go语言经典面试题
